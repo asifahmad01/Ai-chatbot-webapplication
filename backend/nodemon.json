@@ -1,0 +1,7 @@
+{
+  "watch": ["server.js", "routes", "models"],
+  "ignore": ["**/venv/**", "**/__pycache__/**", "*.pyc", "node_modules"],
+  "ext": "js,json",
+  "exec": "node server.js",
+  "legacyWatch": true
+}

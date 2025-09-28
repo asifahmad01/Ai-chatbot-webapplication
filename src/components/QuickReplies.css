@@ -1,0 +1,19 @@
+.quick-replies {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.quick-replies button {
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.quick-replies button:hover {
+  background-color: #d0d0d0;
+}

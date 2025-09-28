@@ -1,0 +1,230 @@
+/* ------------------------------
+   ChatWindow.css — bottom-center, wide, transparent
+   - 100% transparent shell
+   - Better light-mode contrast
+   - ChatGPT-green buttons (send & close)
+   - Close button resides next to send
+--------------------------------- */
+
+/* Root floating wrapper */
+.cw-floating {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: 100%;
+  pointer-events: none; /* allow clicks only on inner elements */
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial;
+}
+
+/* Centered open button */
+.cw-fab {
+  pointer-events: auto;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db; /* better light contrast */
+  background: #111827;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(0,0,0,.25);
+}
+.cw-fab:hover { filter: brightness(1.05); }
+
+/* Panel: centered, wide, transparent */
+.cw-panel {
+  pointer-events: auto;
+  position: absolute;
+  left: 50%;
+  bottom: 46px; /* sits above the fab position */
+  transform: translateX(-50%);
+  width: min(820px, 96vw);           /* wider */
+  height: min(60vh, 680px);          /* a bit taller */
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: pop .15s ease-out both;
+}
+@keyframes pop { from { transform: translateX(-50%) translateY(6px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
+
+/* Messages list — transparent, high-contrast text in light mode */
+.cw-list {
+  flex: 1;
+  overflow: auto;
+  padding: 8px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scrollbar-width: thin;
+}
+.cw-list::-webkit-scrollbar { width: 6px; }
+.cw-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+
+/* Better default text contrast (light mode) */
+:root {
+  --cw-text: #0b1324;     /* darker than before for readability */
+  --cw-muted: #475569;    /* slate-600 */
+  --cw-bot-bg: rgba(255,255,255,0.92);  /* nearly solid white for clarity */
+  --cw-bot-border: #cbd5e1;             /* stronger border */
+  --cw-user-bg: #e7f6ea;                /* soft green, readable */
+  --cw-user-border: #b7e0c0;
+
+  --cw-stroke: #cbd5e1;   /* clearer outlines in light */
+  --cw-placeholder: #6b7280;
+
+  /* ChatGPT green */
+  --cw-accent: #10a37f;
+  --cw-accent-hover: #0e8f72;
+  --cw-accent-press: #0d7a62;
+  --cw-accent-fg: #ffffff;
+}
+
+/* Bubbles (ultra minimal, no tails) */
+.cw-bubble {
+  max-width: 85%;
+  position: relative;
+  padding: 10px 12px;
+  border-radius: 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  word-break: break-word;
+  display: inline-block;
+  color: var(--cw-text);
+}
+
+.cw-bubble.bot {
+  align-self: flex-start;
+  background: var(--cw-bot-bg);
+  border: 1px solid var(--cw-bot-border);
+}
+
+.cw-bubble.user {
+  align-self: flex-end;
+  background: var(--cw-user-bg);
+  border: 1px solid var(--cw-user-border);
+}
+
+.cw-text { white-space: pre-wrap; }
+
+.cw-time {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--cw-muted);
+}
+.cw-time.l { text-align: left; padding-left: 2px; }
+.cw-time.r { text-align: right; padding-right: 2px; }
+
+/* Typing indicator */
+.cw-bubble.typing {
+  align-self: flex-start;
+  background: var(--cw-bot-bg);
+  border: 1px solid var(--cw-bot-border);
+  display: inline-flex;
+  gap: 6px;
+}
+.cw-bubble.typing .dot {
+  width: 6px; height: 6px; border-radius: 999px;
+  background: #9ca3af;
+  animation: bounce 1.2s infinite ease-in-out;
+  opacity: .7;
+}
+.cw-bubble.typing .dot:nth-child(2){ animation-delay: .14s; }
+.cw-bubble.typing .dot:nth-child(3){ animation-delay: .28s; }
+@keyframes bounce { 0%,80%,100% { transform: translateY(0); opacity:.35;} 40% { transform: translateY(-4px); opacity:1; } }
+
+/* Composer: transparent shell; field with subtle outline; Close × next to Send */
+.cw-composer {
+  padding: 8px 0 0;
+  border-top: none;
+  background: transparent;
+}
+.cw-input-wrap {
+  position: relative;
+  border: 1px solid var(--cw-stroke);
+  border-radius: 16px;
+  background: rgba(248,250,252,0.8);
+  display: flex;
+  align-items: flex-end;
+  padding-right: 96px; /* room for close + send on the right */
+}
+.cw-input {
+  flex: 1;
+  min-height: 48px;
+  max-height: 160px;
+  padding: 12px 14px;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: var(--cw-text);
+  font: inherit;
+}
+.cw-input::placeholder { color: var(--cw-placeholder); }
+
+/* Buttons area on the right of the field */
+.cw-send,
+.cw-close-inline {
+  position: absolute;
+  bottom: 6px;
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--cw-accent);
+  background: var(--cw-accent);
+  color: var(--cw-accent-fg);
+  font-size: 18px;
+  cursor: pointer;
+  transition: transform .1s ease, background .15s ease, border-color .15s ease;
+  display: grid; place-items: center;
+}
+.cw-send { right: 6px; }
+.cw-close-inline { right: 50px; font-size: 20px; line-height: 1; }
+
+.cw-send:hover,
+.cw-close-inline:hover { background: var(--cw-accent-hover); border-color: var(--cw-accent-hover); }
+.cw-send:active,
+.cw-close-inline:active { background: var(--cw-accent-press); border-color: var(--cw-accent-press); }
+.cw-send:disabled { opacity: .5; cursor: not-allowed; }
+
+.cw-hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #64748b;
+  text-align: center;
+}
+
+/* ------------------------------
+   Dark mode (auto via system)
+------------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cw-text: #e5e7eb;
+    --cw-muted: #9aa8bf;
+    --cw-bot-bg: rgba(18, 22, 36, 0.65);
+    --cw-bot-border: rgba(255, 255, 255, 0.1);
+    --cw-user-bg: rgba(24, 56, 36, 0.55);
+    --cw-user-border: rgba(34, 197, 94, 0.28);
+
+    --cw-stroke: #2b3247;
+    --cw-placeholder: #8a97b5;
+
+    --cw-accent: #10a37f;
+    --cw-accent-hover: #0e8f72;
+    --cw-accent-press: #0d7a62;
+    --cw-accent-fg: #ffffff;
+  }
+
+  .cw-list::-webkit-scrollbar-thumb { background: #303b50; }
+
+  .cw-input-wrap {
+    background: rgba(11, 18, 32, 0.7);
+  }
+}

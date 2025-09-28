@@ -1,0 +1,63 @@
+.cm-bubble {
+  max-width: 82%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 15px;
+  line-height: 1.45;
+  position: relative;
+  animation: cmIn .18s ease-out both;
+  word-break: break-word;
+}
+@keyframes cmIn { from { transform: translateY(4px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.cm-text { white-space: pre-wrap; }
+
+/* User bubble: bright glass/white with subtle shadow */
+.cm-bubble.user {
+  align-self: flex-end;
+  color: #0b1324;
+  background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.78));
+  border: 1px solid rgba(15,23,42,.10);
+  box-shadow: 0 6px 16px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.6);
+}
+
+/* Bot bubble: soft glass */
+.cm-bubble.bot {
+  align-self: flex-start;
+  color: #0f172a;
+  background: rgba(255,255,255,.62);
+  border: 1px solid rgba(15,23,42,.10);
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+}
+
+/* “AI” tag */
+.cm-tag {
+  position: absolute;
+  top: -10px; left: -10px;
+  font-size: 10px; font-weight: 800; color: #fff;
+  padding: 3px 6px;
+  background: linear-gradient(90deg, #6366f1, #22d3ee, #ec4899);
+  border-radius: 999px;
+  box-shadow: 0 6px 14px rgba(0,0,0,.18);
+}
+
+.cm-time {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #64748b;
+  text-align: right;
+}
+
+/* Dark mode adjustments (auto if App or parent sets data-mode="dark") */
+[data-mode="dark"] .cm-bubble.user {
+  color: #e5e7eb;
+  background: linear-gradient(180deg, rgba(16,19,33,.9), rgba(16,19,33,.78));
+  border-color: rgba(255,255,255,.08);
+  box-shadow: 0 6px 16px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.05);
+}
+[data-mode="dark"] .cm-bubble.bot {
+  color: #e5e7eb;
+  background: rgba(18,22,36,.6);
+  border-color: rgba(255,255,255,.08);
+}
+[data-mode="dark"] .cm-time { color: #9aa8bf; }

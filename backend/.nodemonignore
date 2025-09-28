@@ -1,0 +1,8 @@
+# ignore your entire virtual‑env
+venv/
+
+# ignore all Python cache folders
+**/__pycache__/
+
+# ignore compiled Python files
+*.pyc
