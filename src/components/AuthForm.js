@@ -13,6 +13,8 @@ const AuthForm = ({ onAuthSuccess }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [formStep, setFormStep] = useState(0);
   const [isFormValid, setIsFormValid] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const formRef = useRef(null);
 
   const toggleForm = () => {
@@ -23,6 +25,8 @@ const AuthForm = ({ onAuthSuccess }) => {
     setPassword("");
     setFormStep(0);
     setShowPassword(false);
+    setShowSuccessMessage(false);
+    setSuccessMessage("");
   };
 
   // Check form validity - simplified
@@ -121,7 +125,24 @@ const AuthForm = ({ onAuthSuccess }) => {
   
     try {
       const response = await axios.post(endpoint, formData);
+      
+      if (isSignUp) {
+        // Show success message for signup
+        setSuccessMessage("Account created successfully! You can now sign in.");
+        setShowSuccessMessage(true);
+        
+        // Auto-switch to sign in after 2 seconds
+        setTimeout(() => {
+          setIsSignUp(false);
+          setShowSuccessMessage(false);
+          setName("");
+          setEmail("");
+          setPassword("");
+        }, 2000);
+      } else {
+        // For login, call the success callback immediately
       onAuthSuccess(response.data.user);
+      }
     } catch (err) {
       const errorMessage = err.response?.data?.error || "An error occurred. Please try again.";
       setErrors({ submit: errorMessage });
@@ -145,7 +166,7 @@ const AuthForm = ({ onAuthSuccess }) => {
           </div>
 
           {/* Header */}
-          <div className="auth-header">
+        <div className="auth-header">
             <div className="auth-brand">
               <div className="brand-icon">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
@@ -177,11 +198,11 @@ const AuthForm = ({ onAuthSuccess }) => {
                 }
               </p>
             </div>
-          </div>
+        </div>
           
           {/* Form */}
           <form onSubmit={handleSubmit} className="auth-form" noValidate>
-            {isSignUp && (
+          {isSignUp && (
               <div className="field-group">
                 <label htmlFor="name" className="field-label">
                   Full Name <span className="required">*</span>
@@ -193,11 +214,11 @@ const AuthForm = ({ onAuthSuccess }) => {
                       <circle cx="12" cy="7" r="4"></circle>
                     </svg>
                   </div>
-                  <input
-                    type="text"
+            <input
+              type="text"
                     id="name"
                     className="field-input"
-                    value={name}
+              value={name}
                     onChange={(e) => {
                       setName(e.target.value);
                       handleInputChange('name', e.target.value);
@@ -206,8 +227,8 @@ const AuthForm = ({ onAuthSuccess }) => {
                     onBlur={() => setFocusedField('')}
                     placeholder="Enter your full name"
                     autoComplete="name"
-                    required
-                  />
+              required
+            />
                   {name && !errors.name && (
                     <div className="field-success">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -240,11 +261,11 @@ const AuthForm = ({ onAuthSuccess }) => {
                     <polyline points="22,6 12,13 2,6"></polyline>
                   </svg>
                 </div>
-                <input
-                  type="email"
+          <input
+            type="email"
                   id="email"
                   className="field-input"
-                  value={email}
+            value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
                     handleInputChange('email', e.target.value);
@@ -253,8 +274,8 @@ const AuthForm = ({ onAuthSuccess }) => {
                   onBlur={() => setFocusedField('')}
                   placeholder="Enter your email address"
                   autoComplete="email"
-                  required
-                />
+            required
+          />
                 {email && !errors.email && (
                   <div className="field-success">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -287,11 +308,11 @@ const AuthForm = ({ onAuthSuccess }) => {
                     <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                   </svg>
                 </div>
-                <input
+          <input
                   type={showPassword ? "text" : "password"}
                   id="password"
                   className="field-input"
-                  value={password}
+            value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
                     handleInputChange('password', e.target.value);
@@ -300,13 +321,16 @@ const AuthForm = ({ onAuthSuccess }) => {
                   onBlur={() => setFocusedField('')}
                   placeholder="Enter your password"
                   autoComplete={isSignUp ? "new-password" : "current-password"}
-                  required
-                />
+            required
+          />
                 <button
                   type="button"
                   className="password-toggle"
-                  onClick={() => setShowPassword(!showPassword)}
-                  tabIndex={-1}
+                  onClick={() => {
+                    console.log('Password toggle clicked, current state:', showPassword);
+                    setShowPassword(!showPassword);
+                  }}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -350,6 +374,21 @@ const AuthForm = ({ onAuthSuccess }) => {
               )}
             </div>
             
+            {showSuccessMessage && (
+              <div className="success-message">
+                <div className="success-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22,4 12,14.01 9,11.01"></polyline>
+                  </svg>
+                </div>
+                <div className="success-content">
+                  <h4>Success!</h4>
+                  <p>{successMessage}</p>
+                </div>
+              </div>
+            )}
+            
             {errors.submit && (
               <div className="form-error">
                 <div className="error-icon">
@@ -390,8 +429,8 @@ const AuthForm = ({ onAuthSuccess }) => {
                 )}
               </div>
               <div className="button-background"></div>
-            </button>
-          </form>
+          </button>
+        </form>
           
           {/* Footer */}
           <div className="auth-footer">

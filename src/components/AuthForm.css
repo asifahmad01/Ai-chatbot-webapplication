@@ -374,6 +374,12 @@
   min-height: 2.5rem;
 }
 
+/* Add padding for password field to make room for toggle button */
+.field-input[type="password"],
+.field-input[type="text"]:not([id="name"]):not([id="email"]) {
+  padding-right: 3rem;
+}
+
 .field-input::placeholder {
   color: var(--neutral-400);
   font-weight: 400;
@@ -387,7 +393,7 @@
   outline: none;
 }
 
-/* Success/Error Icons */
+/* Success/Error Icons and Password Toggle */
 .field-success,
 .password-toggle {
   position: absolute;
@@ -405,6 +411,7 @@
 .field-success {
   color: var(--success-500);
   animation: successPop var(--transition-normal) ease-out;
+  pointer-events: none;
 }
 
 @keyframes successPop {
@@ -419,21 +426,35 @@
 }
 
 .password-toggle {
-  background: transparent;
-  border: none;
-  color: var(--neutral-400);
+  background: var(--neutral-50);
+  border: 1px solid var(--neutral-200);
+  color: var(--neutral-500);
   cursor: pointer;
-  padding: 0;
+  padding: var(--space-1);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
 }
 
 .password-toggle:hover {
-  color: var(--neutral-600);
-  background: var(--neutral-100);
+  color: var(--primary-500);
+  background: var(--primary-50);
+  border-color: var(--primary-200);
 }
 
 .password-toggle:focus {
   outline: 2px solid var(--primary-500);
   outline-offset: 2px;
+  border-color: var(--primary-500);
+}
+
+.password-toggle:active {
+  transform: scale(0.95);
+  background: var(--primary-100);
 }
 
 /* Field Error */
@@ -501,6 +522,48 @@
   font-weight: 500;
   color: var(--neutral-600);
   white-space: nowrap;
+}
+
+/* Success Message */
+.success-message {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--success-50);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: var(--radius-lg);
+  animation: successSlide var(--transition-normal) ease-out;
+  margin-bottom: var(--space-4);
+}
+
+.success-icon {
+  flex-shrink: 0;
+  color: var(--success-500);
+}
+
+.success-content h4 {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--success-600);
+  margin: 0 0 var(--space-1) 0;
+}
+
+.success-content p {
+  font-size: var(--font-size-sm);
+  color: var(--success-700);
+  margin: 0;
+  line-height: var(--line-height-normal);
+}
+
+@keyframes successSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Form Error */
@@ -802,6 +865,11 @@
   .form-error {
     background: rgba(239, 68, 68, 0.1);
     border-color: rgba(239, 68, 68, 0.2);
+  }
+
+  .success-message {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.2);
   }
 }
 
