@@ -33,8 +33,6 @@ JWT_SECRET=your_secret
 ### Run the app
 npm start
 
-## 📸 Screenshots
-(Add karo agar hai)
 
 ## 👨‍💻 Author
 Md Asif Anjum
