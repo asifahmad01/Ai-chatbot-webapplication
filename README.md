@@ -1,40 +1,93 @@
-# 🤖 AI Chatbot Application
+# AI Chatbot Application
 
-An AI-powered chatbot built with LangChain, 
-OpenAI API, and RAG architecture.
+A full-stack AI chatbot application built using **Flask, LangChain, OpenAI API, OpenAI Embeddings, ChromaDB, React.js, Node.js, Express.js, JWT, and MongoDB**.
 
-## ✨ Features
-- Real-time AI conversations
-- RAG (Retrieval Augmented Generation)
+The project is developed in two phases:
+
+- **Phase 1:** RAG-based AI chatbot using Flask, LangChain, OpenAI API, OpenAI Embeddings, and ChromaDB.
+- **Phase 2:** Full-stack enhancement with React.js frontend, Node.js + Express backend, JWT authentication, real-time messaging, and MongoDB-based persistent chat storage.
+
+---
+
+## Project Overview
+
+This AI chatbot uses a **Retrieval-Augmented Generation (RAG)** workflow to generate context-aware responses.
+
+In the training phase, the chatbot loads custom context data from a text file, splits the content into smaller chunks, generates vector embeddings using OpenAI Embeddings, and stores those embeddings in ChromaDB.
+
+When a user sends a query, the Flask `/chat` API retrieves the most relevant chunks from ChromaDB using similarity search and sends the query along with the retrieved context to the OpenAI LLM. The model then generates an intelligent and context-aware response.
+
+---
+
+## Features
+
+- AI-powered chatbot with context-aware responses
+- RAG-based architecture
+- Custom context training using `train.py`
+- Text loading and chunking
+- 1000-character chunk size for context splitting
+- OpenAI Embeddings for vector generation
+- ChromaDB for vector storage
+- Similarity search for relevant context retrieval
+- Flask `/chat` API for chatbot response generation
+- OpenAI LLM integration
+- React.js frontend for user interaction
+- Node.js + Express backend support
+- JWT-based authentication
+- Real-time messaging
+- Persistent chat storage using MongoDB
+
+---
+
+## Tech Stack
+
+### Frontend
+- React.js
+- HTML
+- CSS
+- JavaScript
+
+### Backend
+- Python
+- Flask
+- Node.js
+- Express.js
+
+### AI / GenAI
+- OpenAI API
+- LangChain
+- OpenAI Embeddings
+- Retrieval-Augmented Generation
+- Prompt Engineering
+
+### Database / Vector Store
+- ChromaDB
+- MongoDB
+
+### Authentication
 - JWT Authentication
-- Persistent chat history
-- WhatsApp API integration
 
-## 🛠️ Tech Stack
-- **Frontend:** React.js
-- **Backend:** Node.js, Express.js
-- **AI:** LangChain, OpenAI API
-- **Database:** MongoDB
-- **Auth:** JWT
+---
 
-## 🚀 How to Run
+## Architecture
 
-### Clone the repo
-git clone https://github.com/asifahmad01/Ai-chatbot-webapplication
+### Training Flow
 
-### Install dependencies
-npm install
-
-### Add environment variables
-OPENAI_API_KEY=your_key
-MONGODB_URI=your_uri
-JWT_SECRET=your_secret
-
-### Run the app
-npm start
-
-
-## 👨‍💻 Author
-Md Asif Anjum
-- LinkedIn: linkedin.com/in/md-asif-anjum-0aa18a1a8
-- GitHub: github.com/asifahmad01
+```text
+Context.txt
+   |
+   v
+Text Loader
+   |
+   v
+Character Text Splitter
+Chunk Size: 1000
+   |
+   v
+OpenAI Embeddings
+   |
+   v
+Vector Store
+   |
+   v
+ChromaDB
